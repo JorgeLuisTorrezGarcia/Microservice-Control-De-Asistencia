@@ -1,6 +1,3 @@
-Excelente, las respuestas son muy claras. Perfecto, eliminamos el API Gateway por simplicidad y usaremos JavaScript con MySQL.
-
-Vamos a profundizar en el análisis y diseño basándonos en esto.
 
 ---
 
@@ -78,7 +75,7 @@ Vamos a profundizar en el análisis y diseño basándonos en esto.
 
 Dado que no usaremos API Gateway, el frontend (cliente) deberá conocer las direcciones (puertos) de cada microservicio. Esta es una simplificación válida para un MVP que demuestra el concepto.
 
-```mermaid
+```TEXT
 graph LR
     subgraph "Cliente (Aplicación Web - Frontend)"
         UI[HTML, CSS, JavaScript]
