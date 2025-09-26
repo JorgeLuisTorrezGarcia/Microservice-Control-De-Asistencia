@@ -58,13 +58,6 @@ const Login = () => {
             {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
           </button>
         </form>
-
-        <div className="demo-accounts">
-          <h4>Cuentas de Demo:</h4>
-          <p><strong>Admin:</strong> admin / admin123</p>
-          <p><strong>Profesor:</strong> prof.calculus / password</p>
-          <p><strong>Estudiante:</strong> est.juan / password</p>
-        </div>
       </div>
     </div>
   );

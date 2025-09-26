@@ -20,8 +20,17 @@ const ProfessorDashboard = () => {
 
   const loadProfessorSubjects = async () => {
     try {
-      const subjectsData = await apiService.getTeacherSubjects(user.id);
-      setSubjects(subjectsData);
+      // 1. Obtener la lista de todas las materias del catálogo
+      const allSubjects = await apiService.getSubjects();
+
+      // 2. Obtener los IDs de las materias asignadas al profesor
+      const assignedSubjectsData = await apiService.getTeacherSubjects(user.id);
+      const assignedSubjectIds = new Set(assignedSubjectsData.map(sub => sub.subject_id));
+
+      // 3. Filtrar la lista completa para quedarse solo con las materias asignadas
+      const professorSubjects = allSubjects.filter(subject => assignedSubjectIds.has(subject.id));
+
+      setSubjects(professorSubjects);
     } catch (error) {
       console.error('Error loading subjects:', error);
     } finally {
@@ -42,7 +51,7 @@ const ProfessorDashboard = () => {
     
     // Check for active session
     try {
-        const sessions = await apiService.getSubjectSessions(subject.subject_id);
+        const sessions = await apiService.getSubjectSessions(subject.id);
         const openSession = sessions.find(s => s.status === 'open');
         setActiveSession(openSession || null);
         
@@ -120,7 +129,7 @@ const ProfessorDashboard = () => {
         )}
 
         {view === 'history' && selectedSubject && (
-          <SessionHistory subjectId={selectedSubject.subject_id} />
+          <SessionHistory subjectId={selectedSubject.id} />
         )}
       </main>
     </div>

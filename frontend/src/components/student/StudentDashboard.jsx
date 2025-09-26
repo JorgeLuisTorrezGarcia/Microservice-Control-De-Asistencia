@@ -22,7 +22,16 @@ const StudentDashboard = () => {
         apiService.getStudentAttendance(user.id)
       ]);
       
-      setSubjects(subjectsData);
+      // Crear un mapa de ID de materia -> nombre de materia desde los datos de estadísticas
+      const subjectNamesMap = new Map(statsData.map(stat => [stat.subject_id, stat.subject_name]));
+
+      // Enriquecer los datos de las materias con el nombre correspondiente
+      const enrichedSubjects = subjectsData.map(subject => ({
+        ...subject,
+        name: subjectNamesMap.get(subject.subject_id) || 'Nombre no disponible'
+      }));
+
+      setSubjects(enrichedSubjects);
       setAttendanceStats(statsData);
     } catch (error) {
       console.error('Error loading student data:', error);
