@@ -45,14 +45,14 @@ class AttendanceService {
                 throw new Error('Professor is not assigned to this subject');
             }
 
-            // Verificar que no existe una sesión abierta para la misma materia y fecha
-            const existingSession = await this.sessionRepository.findOpenSessionBySubjectAndDate(
+            // Verificar que no existe una sesión para la misma materia y fecha
+            const existingSession = await this.sessionRepository.findBySubjectAndDate(
                 sessionData.subject_id, 
                 sessionDate
             );
             
             if (existingSession) {
-                throw new Error('An open session already exists for this subject and date');
+                throw new Error('A session already exists for this subject and date');
             }
 
             // Crear la sesión

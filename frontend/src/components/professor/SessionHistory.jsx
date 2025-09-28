@@ -4,22 +4,39 @@ import Loading from '../common/Loading';
 import Modal from '../common/Modal';
 import './SessionHistory.css';
 
-const SessionHistory = ({ subjectId }) => {
+const SessionHistory = ({ subjectId, professorId }) => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedSession, setSelectedSession] = useState(null);
   const [sessionDetails, setSessionDetails] = useState(null);
 
   useEffect(() => {
-    loadSessions();
-  }, [subjectId]);
+    if (professorId) {
+      loadProfessorSessions();
+    } else if (subjectId) {
+      loadSubjectSessions();
+    }
+  }, [subjectId, professorId]);
 
-  const loadSessions = async () => {
+  const loadSubjectSessions = async () => {
     try {
+      setLoading(true);
       const sessionsData = await apiService.getSubjectSessions(subjectId);
       setSessions(sessionsData);
     } catch (error) {
-      console.error('Error loading sessions:', error);
+      console.error('Error loading subject sessions:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadProfessorSessions = async () => {
+    try {
+      setLoading(true);
+      const sessionsData = await apiService.getProfessorSessions(professorId);
+      setSessions(sessionsData);
+    } catch (error) {
+      console.error('Error loading professor sessions:', error);
     } finally {
       setLoading(false);
     }
@@ -51,17 +68,18 @@ const SessionHistory = ({ subjectId }) => {
 
   return (
     <div className="session-history">
-      <h2>Historial de Sesiones</h2>
+      <h2>{professorId ? 'Historial General de Sesiones' : 'Historial de Sesiones'}</h2>
       
       {sessions.length === 0 ? (
         <div className="no-sessions">
-          <p>No hay sesiones registradas para esta materia.</p>
+          <p>No hay sesiones registradas.</p>
         </div>
       ) : (
         <div className="sessions-table-container">
           <table className="sessions-table">
             <thead>
               <tr>
+                {professorId && <th>Materia</th>}
                 <th>Fecha</th>
                 <th>Estado</th>
                 <th>Estudiantes</th>
@@ -72,10 +90,11 @@ const SessionHistory = ({ subjectId }) => {
             <tbody>
               {sessions.map((session) => (
                 <tr key={session.id}>
+                  {professorId && <td>{session.subject_name}</td>}
                   <td>{new Date(session.session_date).toLocaleDateString()}</td>
                   <td>{getStatusBadge(session.status)}</td>
                   <td>{session.total_students || 0}</td>
-                  <td>{session.present_count || 0} / {session.total_students || 0}</td>
+                  <td>{`${session.present_count || 0} / ${session.total_students || 0}`}</td>
                   <td>
                     <button 
                       onClick={() => loadSessionDetails(session.id)}

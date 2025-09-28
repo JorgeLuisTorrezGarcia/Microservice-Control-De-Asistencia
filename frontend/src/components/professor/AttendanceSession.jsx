@@ -39,7 +39,7 @@ const AttendanceSession = ({ subject, activeSession, onSessionCreated, onSession
     try {
       setLoading(true);
       const newSession = await apiService.createSession({
-        subject_id: subject.subject_id,
+        subject_id: subject.id,
         professor_id: subject.professor_id
       });
       

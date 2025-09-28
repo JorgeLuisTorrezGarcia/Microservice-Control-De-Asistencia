@@ -93,6 +93,12 @@ const ProfessorDashboard = () => {
         >
           Mis Materias
         </button>
+        <button 
+          onClick={() => setView('history_all')} 
+          className={view === 'history_all' ? 'active' : ''}
+        >
+          Historial General
+        </button>
         {selectedSubject && (
           <>
             <button 
@@ -105,7 +111,7 @@ const ProfessorDashboard = () => {
               onClick={() => setView('history')} 
               className={view === 'history' ? 'active' : ''}
             >
-              Historial
+              Historial de Materia
             </button>
           </>
         )}
@@ -130,6 +136,10 @@ const ProfessorDashboard = () => {
 
         {view === 'history' && selectedSubject && (
           <SessionHistory subjectId={selectedSubject.id} />
+        )}
+
+        {view === 'history_all' && (
+          <SessionHistory professorId={user.id} />
         )}
       </main>
     </div>
