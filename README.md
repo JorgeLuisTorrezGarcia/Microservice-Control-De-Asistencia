@@ -195,13 +195,3 @@ CREATE TABLE attendance_records (
 );
 ```
 
----
-
-### Siguiente Paso: Diseño de Detalle Procedimental (Diagrama de Clases)
-
-Antes de pasar a la implementación, necesitamos definir las clases principales que estructurarán el código de cada servicio. Esto nos dará un plano detallado.
-
-**Mi pregunta para ti antes de continuar:**
-¿Quieres que proceda a crear el **Diagrama de Clases** para cada uno de los tres servicios (User, Catalog, Attendance), mostrando las clases principales, sus atributos y métodos, y cómo se relacionan entre sí dentro de cada servicio?
-
-Con esto tendremos el diseño completo y estaríamos listos para la implementación.
